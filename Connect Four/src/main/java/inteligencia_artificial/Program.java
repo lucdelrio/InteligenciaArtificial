@@ -1,21 +1,21 @@
-package com.connectfour;
+package inteligencia_artificial;
 
 import java.util.Scanner;
 
 public class Program {
 
     private static Scanner scanner;
-    private final static int J1 = 1;
+    private final static int Player1 = 1;
     private final static int PC = 2;
-    private static String J1Piece;
-    private static String PCPiece;
+    private static String Player1Piece;
+    private static String ComputerPiece;
 
     public static void main(String args[]) {
 
         System.out.println("Bienvenido al Cuatro en Línea");
         System.out.println("Seleccione quién comienza el juego");
         System.out.println("----------------------------------");
-        System.out.println("1 - Comienza J1");
+        System.out.println("1 - Comienza Player1");
         System.out.println("2 - Comienza PC");
 
         int option = 0;
@@ -24,23 +24,26 @@ public class Program {
 
         switch (option){
             case 1:
-                J1Piece = "O";
-                PCPiece = "X";
+                Game connectFourComputerStart = new Game(new Player1(Player1Piece = "O"),new Computer(
+                        ComputerPiece = "X"));
+
                 System.out.println("Ingrese un número del 1 al 7 donde desee insertar su ficha");
                 break;
             case 2:
-                PCPiece = "O";
-                J1Piece = "X";
+                Game connectFourPlayer1Start = new Game(new Computer(
+                        ComputerPiece = "X"), new Player1(Player1Piece = "O"));
+
                 break;
 
             default:
                 System.out.println("Seleccione una opción válida");
-                clearScreen();
                 System.out.println("Seleccione quién comienza el juego");
                 System.out.println("----------------------------------");
-                System.out.println("1 - Comienza J1");
+                System.out.println("1 - Comienza Player1");
                 System.out.println("2 - Comienza PC");
+                scanner.nextLine();
 
+                break;
         }
 
     }
