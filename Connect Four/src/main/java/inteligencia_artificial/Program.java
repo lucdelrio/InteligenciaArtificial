@@ -5,17 +5,20 @@ import java.util.Scanner;
 public class Program {
 
     private static Scanner scanner;
-    private final static int Player1 = 1;
-    private final static int PC = 2;
-    private static String Player1Piece;
-    private static String ComputerPiece;
 
-    public static void main(String args[]) {
+    public static void main(String args[]){
 
         System.out.println("Bienvenido al Cuatro en Línea");
+
+        System.out.println("Ingrese su nombre");
+        String playerName;
+        scanner = new Scanner(System.in);
+        playerName = scanner.nextLine();
+
         System.out.println("Seleccione quién comienza el juego");
         System.out.println("----------------------------------");
-        System.out.println("1 - Comienza Player1");
+
+        System.out.println("1 - " + "Comienza "+ playerName );
         System.out.println("2 - Comienza PC");
 
         int option = 0;
@@ -24,14 +27,14 @@ public class Program {
 
         switch (option){
             case 1:
-                Game connectFourComputerStart = new Game(new Player1(Player1Piece = "O"),new Computer(
-                        ComputerPiece = "X"));
+                Game connectFourPlayer1Start = new Game(new Player1("O", playerName),new Computer(
+                        "X", "PC"));
 
-                System.out.println("Ingrese un número del 1 al 7 donde desee insertar su ficha");
                 break;
+
             case 2:
-                Game connectFourPlayer1Start = new Game(new Computer(
-                        ComputerPiece = "X"), new Player1(Player1Piece = "O"));
+                Game connectFourComputerStart = new Game(new Computer(
+                        "O", "PC"), new Player1("X", playerName));
 
                 break;
 
@@ -39,17 +42,11 @@ public class Program {
                 System.out.println("Seleccione una opción válida");
                 System.out.println("Seleccione quién comienza el juego");
                 System.out.println("----------------------------------");
-                System.out.println("1 - Comienza Player1");
+                System.out.println("1 - " + "Comienza " + playerName);
                 System.out.println("2 - Comienza PC");
                 scanner.nextLine();
 
                 break;
         }
-
-    }
-
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
     }
 }

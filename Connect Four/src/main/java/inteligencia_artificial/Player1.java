@@ -2,18 +2,13 @@ package inteligencia_artificial;
 
 import java.util.Scanner;
 
-/**
- * Represents a human player in Connect Four.
- * This is a commandline game, so we scan from in
- *
- * @author Richard
- */
 public class Player1 extends User {
     private String name;
     private String piece;
 
-    public Player1(String piece){
+    public Player1(String piece, String name){
         this.piece = piece;
+        this.name = name;
     }
 
     public String getPiece(){
@@ -21,16 +16,20 @@ public class Player1 extends User {
     }
 
     public int generateMove(int player, Board board) {
-
         System.out.println("Ingrese un número del 1 al 7 donde desee insertar su ficha");
         Scanner scanner = new Scanner(System.in);
-        int move = scanner.nextInt();
+        int move = 0;
 
-        return move;
-    }
-    @Override
-    public void setUserName(String name){
-        this.name = name;
+        while (move == 0){
+            int numberScan = scanner.nextInt();
+            if (numberScan < 1 || numberScan > 7) {
+                System.out.println("Movimiento ilegal, debe ingresar un numero entre 1 y 7");
+            }else {
+                move = numberScan;
+            }
+        }
+
+        return move-1;
     }
 
     @Override

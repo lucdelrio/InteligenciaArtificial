@@ -9,27 +9,21 @@ public class Computer extends User {
 
     private int player_me;
 
-    private int counter;
-
     private String piece;
 
-    public Computer(String piece){
+    public Computer(String piece, String name){
         this.piece = piece;
+        this.name = name;
     }
 
     public String getPiece(){
         return this.piece;
     }
 
-    public void setUserName(String name){
-        this.name = name;
-    }
-
     public String getUserName(){
         return this.name;
     }
 
-    @Override
     public int generateMove(int player, Board board) {
         player_me = player;
         return alphabetaHelper(player, board);
@@ -44,9 +38,9 @@ public class Computer extends User {
 
         int bestMove = -1;
         double bestValue = (player_me == player) ? alpha : beta;
-        counter = 0;
         int depth = 6;
-        //actual depth is depth +1
+
+        //depth is depth +1
         switch(moves.size()) {
             case 7: depth = 6; break;
             case 6: depth = 7; break;
@@ -63,18 +57,16 @@ public class Computer extends User {
                         otherPlayer(player), board, alpha, beta, depth);
             board.undoMove(player, m);
             
-            //now do the weighting
-            score += (double)(weights[board.indices[m]][m])/100;
+            score += (double)(weights[board.boardIndex[m]][m])/100;
             
             values.add(score);
 
-            //you want to maximize your score
             if(player_me == player) {
                 if (score > bestValue) {
                     bestValue = score;
                     bestMove = m;
                 }
-            } else { //minimize score
+            } else {
                 if (score < bestValue) {
                     bestValue = score;
                     bestMove = m;
@@ -84,17 +76,12 @@ public class Computer extends User {
         return bestMove;
     }
 
-    //player is the player that is about to go.
-    public double alphabeta(
-            int player, Board node,double alpha, double beta, int depth)
-    {
-        //game is over when isGameOver() == 1 or 2
+    public double alphabeta(int player, Board node,double alpha, double beta, int depth) {
+
         if (depth == 0 || node.isGameOver() != 0) {
-            counter++;
             return evaluate(player, node, depth);
         }
 
-        //player max
         if (player == player_me) {
             double score = alpha;
             for(int move : node.getPossibleMoves()) {
@@ -102,15 +89,14 @@ public class Computer extends User {
                 score = alphabeta(
                         otherPlayer(player), node, alpha, beta, depth-1);
                 node.undoMove(player, move);
-                //find the max score
+
                 if (score > alpha)
-                    alpha = score; //you have found a better move
+                    alpha = score;
                 if (alpha >= beta)
-                    return alpha; //cutoff
+                    return alpha;
             }
             return alpha;
         }
-        //if  (player != player_me)
         else {
             double score = beta;
             for(int move : node.getPossibleMoves()) {
@@ -118,11 +104,11 @@ public class Computer extends User {
                 score = alphabeta(
                         otherPlayer(player), node, alpha, beta, depth-1);
                 node.undoMove(player, move);
-                //find the min score
+
                 if (score < beta)
-                    beta = score; //opponent has found a better move
+                    beta = score;
                 if (alpha >= beta)
-                    return beta; //cutoff
+                    return beta;
             }
             return beta;
         }
